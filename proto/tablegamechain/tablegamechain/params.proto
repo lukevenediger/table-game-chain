@@ -1,0 +1,15 @@
+syntax = "proto3";
+package tablegamechain.tablegamechain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "table-game-chain/x/tablegamechain/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "tablegamechain/x/tablegamechain/Params";
+  option (gogoproto.equal) = true;
+
+  
+}

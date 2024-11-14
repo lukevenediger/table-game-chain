@@ -1,0 +1,17 @@
+syntax = "proto3";
+package tablegamechain.tablegamechain;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "tablegamechain/tablegamechain/params.proto";
+
+option go_package = "table-game-chain/x/tablegamechain/types";
+
+// GenesisState defines the tablegamechain module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package tablegamechain.checkers;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "table-game-chain/x/checkers/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "tablegamechain/x/checkers/Params";
+  option (gogoproto.equal) = true;
+
+  
+  string inactivityTimeout = 1 [(gogoproto.moretags) = "yaml:\"inactivity_timeout\""];
+}
