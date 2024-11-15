@@ -1,0 +1,38 @@
+syntax = "proto3";
+package tablegamechain.checkers;
+
+option go_package = "table-game-chain/x/checkers/types";
+
+// Game defines the Game type.
+message Game {
+  string board = 2;
+  string red = 3;
+  string black = 4;
+  string turn = 5;
+  string state = 6;
+  int64 start_time = 7;
+  int64 end_time = 8;
+  string creator = 9;
+}
+
+// A game identified by an index.
+message IndexedGame {
+  int64 index = 1;
+  Game game = 2;
+}
+
+// All possible checkers game states
+enum GameState {
+  // The game state is not set
+  GAME_STATE_UNSPECIFIED = 0;
+  // The game board is set up and ready to play
+  GAME_STATE_READY = 1;
+  // The game is in progress
+  GAME_STATE_PLAYING = 2;
+  // The game is complete - no more moves can be made
+  GAME_STATE_COMPLETE = 3;
+  // The game has expired - no further moves will be accepted
+  GAME_STATE_EXPIRED = 4;
+  // The game has been forfeited by one of the players
+  GAME_STATE_FORFEITED = 5;
+}

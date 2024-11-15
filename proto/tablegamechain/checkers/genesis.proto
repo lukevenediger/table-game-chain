@@ -1,8 +1,10 @@
 syntax = "proto3";
+
 package tablegamechain.checkers;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
+import "tablegamechain/checkers/game.proto";
 import "tablegamechain/checkers/params.proto";
 
 option go_package = "table-game-chain/x/checkers/types";
@@ -14,4 +16,6 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+  // gameList defines all the games in the module.
+  repeated Game game_list = 2 [(gogoproto.nullable) = false];
 }
