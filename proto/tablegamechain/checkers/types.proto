@@ -10,14 +10,14 @@ message Game {
   string black = 4;
   string turn = 5;
   string state = 6;
-  int64 start_time = 7;
-  int64 end_time = 8;
+  string start_time = 7;
+  string end_time = 8;
   string creator = 9;
 }
 
 // A game identified by an index.
 message IndexedGame {
-  int64 index = 1;
+  string index = 1;
   Game game = 2;
 }
 

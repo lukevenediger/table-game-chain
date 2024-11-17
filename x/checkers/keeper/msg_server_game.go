@@ -24,14 +24,17 @@ func (k msgServer) CreateGame(goCtx context.Context, msg *types.MsgCreateGame) (
 
 	var game = types.NewGame(
 		msg.Creator,
-		msg.Index,
 		msg.Black,
 		msg.Red,
-		ctx.BlockTime().Unix())
+		ctx.BlockTime(),
+	)
 
 	k.SetGame(
 		ctx,
-		game,
+		types.NewIndexedGame(
+			msg.Index,
+			game,
+		),
 	)
 	return &types.MsgCreateGameResponse{}, nil
 }

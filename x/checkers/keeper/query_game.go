@@ -12,12 +12,13 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// GameAll returns a page of indexed games
 func (k Keeper) GameAll(ctx context.Context, req *types.QueryAllGameRequest) (*types.QueryAllGameResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var games []types.Game
+	var indexedGames []types.IndexedGame
 
 	store := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	gameStore := prefix.NewStore(store, types.KeyPrefix(types.GameKeyPrefix))
@@ -28,7 +29,11 @@ func (k Keeper) GameAll(ctx context.Context, req *types.QueryAllGameRequest) (*t
 			return err
 		}
 
-		games = append(games, game)
+		indexedGames = append(indexedGames, types.IndexedGame{
+			// TODO: super sus about whether this conversion will work :/
+			Index: string(key),
+			Game:  &game,
+		})
 		return nil
 	})
 
@@ -36,9 +41,10 @@ func (k Keeper) GameAll(ctx context.Context, req *types.QueryAllGameRequest) (*t
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryAllGameResponse{Game: games, Pagination: pageRes}, nil
+	return &types.QueryAllGameResponse{Games: indexedGames, Pagination: pageRes}, nil
 }
 
+// Game returns a game from its index
 func (k Keeper) Game(ctx context.Context, req *types.QueryGetGameRequest) (*types.QueryGetGameResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")

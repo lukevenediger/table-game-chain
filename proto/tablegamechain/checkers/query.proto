@@ -6,8 +6,8 @@ import "amino/amino.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
-import "tablegamechain/checkers/game.proto";
 import "tablegamechain/checkers/params.proto";
+import "tablegamechain/checkers/types.proto";
 
 option go_package = "table-game-chain/x/checkers/types";
 
@@ -57,6 +57,6 @@ message QueryAllGameRequest {
 
 // QueryAllGameResponse is response type for the Query/AllGame RPC method.
 message QueryAllGameResponse {
-  repeated Game game = 1 [(gogoproto.nullable) = false];
+  repeated IndexedGame games = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

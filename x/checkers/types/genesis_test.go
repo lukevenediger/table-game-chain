@@ -23,12 +23,14 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 
-				GameList: []types.Game{
+				GameList: []types.IndexedGame{
 					{
 						Index: "0",
+						Game:  NewValidGame(),
 					},
 					{
 						Index: "1",
+						Game:  NewValidGame(),
 					},
 				},
 				// this line is used by starport scaffolding # types/genesis/validField
@@ -38,12 +40,14 @@ func TestGenesisState_Validate(t *testing.T) {
 		{
 			desc: "duplicated game",
 			genState: &types.GenesisState{
-				GameList: []types.Game{
+				GameList: []types.IndexedGame{
 					{
 						Index: "0",
+						Game:  NewValidGame(),
 					},
 					{
 						Index: "0",
+						Game:  NewValidGame(),
 					},
 				},
 			},

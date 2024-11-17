@@ -15,7 +15,7 @@ func TestGenesis(t *testing.T) {
 	genesisState := types.GenesisState{
 		Params: types.DefaultParams(),
 
-		GameList: []types.Game{
+		GameList: []types.IndexedGame{
 			{
 				Index: "0",
 			},

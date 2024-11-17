@@ -54,7 +54,7 @@ func (k Keeper) RemoveGame(
 }
 
 // GetAllGame returns all game
-func (k Keeper) GetAllGame(ctx context.Context) (list []types.Game) {
+func (k Keeper) GetAllGame(ctx context.Context) (list []types.IndexedGame) {
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.GameKeyPrefix))
 	iterator := storetypes.KVStorePrefixIterator(store, []byte{})
@@ -64,8 +64,11 @@ func (k Keeper) GetAllGame(ctx context.Context) (list []types.Game) {
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.Game
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
-		list = append(list, val)
+		list = append(list, types.IndexedGame{
+			Index: string(iterator.Key()),
+			Game:  &val,
+		})
 	}
 
-	return
+	return list
 }

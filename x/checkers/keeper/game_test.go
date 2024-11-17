@@ -7,19 +7,33 @@ import (
 
 	keepertest "table-game-chain/testutil/keeper"
 	"table-game-chain/testutil/nullify"
+	"table-game-chain/testutil/sample"
 	"table-game-chain/x/checkers/keeper"
 	"table-game-chain/x/checkers/types"
 
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 )
 
 // Prevent strconv unused error
 var _ = strconv.IntSize
 
-func createNGame(keeper keeper.Keeper, ctx context.Context, n int) []types.Game {
-	items := make([]types.Game, n)
+func createNGame(keeper keeper.Keeper, goCtx context.Context, n int) []types.IndexedGame {
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	items := make([]types.IndexedGame, n)
 	for i := range items {
-		items[i].Index = strconv.Itoa(i)
+		addresses := sample.AccAddresses(2)
+		index := strconv.Itoa(i)
+
+		items[i] = types.NewIndexedGame(
+			index,
+			types.NewGame(
+				addresses[0],
+				addresses[0],
+				addresses[1],
+				ctx.BlockTime(),
+			),
+		)
 
 		keeper.SetGame(ctx, items[i])
 	}

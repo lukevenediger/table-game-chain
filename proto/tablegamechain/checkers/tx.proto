@@ -45,8 +45,9 @@ message MsgUpdateParamsResponse {}
 message MsgCreateGame {
   option (cosmos.msg.v1.signer) = "creator";
   string creator = 1;
-  string red = 2;
-  string black = 3;
+  string index = 2;
+  string red = 3;
+  string black = 4;
 }
 
 // MsgCreateGameResponse defines an empty response structure

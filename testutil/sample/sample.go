@@ -11,3 +11,12 @@ func AccAddress() string {
 	addr := pk.Address()
 	return sdk.AccAddress(addr).String()
 }
+
+// AccAddresses returns a slice of sample account addresses
+func AccAddresses(n int) []string {
+	addresses := make([]string, n)
+	for i := range addresses {
+		addresses[i] = AccAddress()
+	}
+	return addresses
+}

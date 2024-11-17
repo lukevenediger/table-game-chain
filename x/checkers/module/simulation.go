@@ -46,14 +46,24 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 	}
 	checkersGenesis := types.GenesisState{
 		Params: types.DefaultParams(),
-		GameList: []types.Game{
+		GameList: []types.IndexedGame{
 			{
-				Creator: sample.AccAddress(),
-				Index:   "0",
+				Index: "0",
+				Game: types.NewGame(
+					accs[0],
+					accs[0],
+					accs[1],
+					simState.GenTimestamp,
+				),
 			},
 			{
-				Creator: sample.AccAddress(),
-				Index:   "1",
+				Index: "1",
+				Game: types.NewGame(
+					accs[0],
+					accs[0],
+					accs[1],
+					simState.GenTimestamp,
+				),
 			},
 		},
 		// this line is used by starport scaffolding # simapp/module/genesisState
@@ -85,12 +95,12 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 }
 
 // ProposalMsgs returns msgs used for governance proposals for simulations.
-func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.WeightedProposalMsg {
+func (am AppModule) ProposalMsgs(_ module.SimulationState) []simtypes.WeightedProposalMsg {
 	return []simtypes.WeightedProposalMsg{
 		simulation.NewWeightedProposalMsg(
 			opWeightMsgCreateGame,
 			defaultWeightMsgCreateGame,
-			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+			func(_ *rand.Rand, _ sdk.Context, _ []simtypes.Account) sdk.Msg {
 				checkerssimulation.SimulateMsgCreateGame(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},

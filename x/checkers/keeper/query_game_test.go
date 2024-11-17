@@ -31,14 +31,14 @@ func TestGameQuerySingle(t *testing.T) {
 			request: &types.QueryGetGameRequest{
 				Index: msgs[0].Index,
 			},
-			response: &types.QueryGetGameResponse{Game: msgs[0]},
+			response: &types.QueryGetGameResponse{Game: *msgs[0].Game},
 		},
 		{
 			desc: "Second",
 			request: &types.QueryGetGameRequest{
 				Index: msgs[1].Index,
 			},
-			response: &types.QueryGetGameResponse{Game: msgs[1]},
+			response: &types.QueryGetGameResponse{Game: *msgs[1].Game},
 		},
 		{
 			desc: "KeyNotFound",
@@ -87,10 +87,10 @@ func TestGameQueryPaginated(t *testing.T) {
 		for i := 0; i < len(msgs); i += step {
 			resp, err := keeper.GameAll(ctx, request(nil, uint64(i), uint64(step), false))
 			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.Game), step)
+			require.LessOrEqual(t, len(resp.Games), step)
 			require.Subset(t,
 				nullify.Fill(msgs),
-				nullify.Fill(resp.Game),
+				nullify.Fill(resp.Games),
 			)
 		}
 	})
@@ -100,10 +100,10 @@ func TestGameQueryPaginated(t *testing.T) {
 		for i := 0; i < len(msgs); i += step {
 			resp, err := keeper.GameAll(ctx, request(next, 0, uint64(step), false))
 			require.NoError(t, err)
-			require.LessOrEqual(t, len(resp.Game), step)
+			require.LessOrEqual(t, len(resp.Games), step)
 			require.Subset(t,
 				nullify.Fill(msgs),
-				nullify.Fill(resp.Game),
+				nullify.Fill(resp.Games),
 			)
 			next = resp.Pagination.NextKey
 		}
@@ -114,7 +114,7 @@ func TestGameQueryPaginated(t *testing.T) {
 		require.Equal(t, len(msgs), int(resp.Pagination.Total))
 		require.ElementsMatch(t,
 			nullify.Fill(msgs),
-			nullify.Fill(resp.Game),
+			nullify.Fill(resp.Games),
 		)
 	})
 	t.Run("InvalidRequest", func(t *testing.T) {
