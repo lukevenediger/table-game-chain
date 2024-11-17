@@ -10,6 +10,7 @@ import (
 	"table-game-chain/x/checkers/types"
 )
 
+// Params queries the params of checkers module
 func (k Keeper) Params(goCtx context.Context, req *types.QueryParamsRequest) (*types.QueryParamsResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")

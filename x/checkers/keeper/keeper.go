@@ -1,3 +1,4 @@
+// Package keeper defines the Keeper for the checkers module.
 package keeper
 
 import (
@@ -12,6 +13,7 @@ import (
 )
 
 type (
+	// Keeper maintains the link to data storage and exposes getter/setter methods for the various parts of the state machine.
 	Keeper struct {
 		cdc          codec.BinaryCodec
 		storeService store.KVStoreService
@@ -23,6 +25,7 @@ type (
 	}
 )
 
+// NewKeeper creates a new checkers Keeper instance.
 func NewKeeper(
 	cdc codec.BinaryCodec,
 	storeService store.KVStoreService,
