@@ -1,0 +1,34 @@
+name: Test and Report
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.23'
+
+      - name: Install go-testreport
+        run: |
+          go install github.com/becheran/go-testreport@latest
+
+      - name: Run tests with coverage
+        run: |
+          go test ./... -coverprofile=coverage.out -json > test-report.json
+
+      - name: Generate test report
+        run: |
+          cat test-report.json | go-testreport $GITHUB_STEP_SUMMARY
